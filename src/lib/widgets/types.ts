@@ -1,5 +1,6 @@
 export type Widget = {
 	id: string;
+	position: number;
 	blocks: AnyBlock[];
 };
 

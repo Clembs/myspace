@@ -4,6 +4,7 @@
 
 	const sampleWidget: Widget = {
 		id: 'friends',
+		position: 0,
 		blocks: [
 			{
 				type: 'text',
