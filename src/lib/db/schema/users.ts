@@ -1,5 +1,5 @@
 import type { Widget } from '$lib/widgets/types';
-import { sql } from 'drizzle-orm';
+import { relations, sql } from 'drizzle-orm';
 import { jsonb, pgTable, text, timestamp } from 'drizzle-orm/pg-core';
 
 export const users = pgTable('users', {
@@ -21,6 +21,11 @@ export const users = pgTable('users', {
 	}).notNull()
 });
 
+export const usersRelations = relations(users, ({ many }) => ({
+	passkeys: many(passkeys),
+	sessions: many(sessions)
+}));
+
 export type User = typeof users.$inferSelect;
 
 export const passkeys = pgTable('passkeys', {
@@ -31,6 +36,13 @@ export const passkeys = pgTable('passkeys', {
 	name: text('name').notNull(),
 	createdAt: timestamp('created_at').notNull().defaultNow()
 });
+
+export const passkeysRelations = relations(passkeys, ({ one }) => ({
+	user: one(users, {
+		fields: [passkeys.userId],
+		references: [users.id]
+	})
+}));
 
 export type Passkey = typeof passkeys.$inferSelect;
 
@@ -44,3 +56,25 @@ export const otps = pgTable('otps', {
 });
 
 export type Otp = typeof otps.$inferSelect;
+
+export const sessions = pgTable('sessions', {
+	id: text('id')
+		.primaryKey()
+		.default(sql`gen_random_uuid()`),
+	name: text('name').notNull(),
+	deviceType: text('device_type', {
+		enum: ['desktop', 'mobile', 'other']
+	}).notNull(),
+	userId: text('user_id').references(() => users.id),
+	createdAt: timestamp('created_at').notNull().defaultNow(),
+	expiresAt: timestamp('expires_at').notNull()
+});
+
+export const sessionsRelations = relations(sessions, ({ one }) => ({
+	user: one(users, {
+		fields: [sessions.userId],
+		references: [users.id]
+	})
+}));
+
+export type Session = typeof sessions.$inferSelect;
