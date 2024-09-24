@@ -28,9 +28,16 @@ export const usersRelations = relations(users, ({ many }) => ({
 
 export type User = typeof users.$inferSelect;
 
+export type FullUser = User & {
+	passkeys: Passkey[];
+	sessions: Session[];
+};
+
 export const passkeys = pgTable('passkeys', {
 	credentialId: text('credential_id').primaryKey(),
-	userId: text('user_id').references(() => users.id),
+	userId: text('user_id')
+		.notNull()
+		.references(() => users.id),
 	publicKey: text('public_key').notNull(),
 	counter: text('counter').notNull(),
 	name: text('name').notNull(),
@@ -65,7 +72,9 @@ export const sessions = pgTable('sessions', {
 	deviceType: text('device_type', {
 		enum: ['desktop', 'mobile', 'other']
 	}).notNull(),
-	userId: text('user_id').references(() => users.id),
+	userId: text('user_id')
+		.notNull()
+		.references(() => users.id),
 	createdAt: timestamp('created_at').notNull().defaultNow(),
 	expiresAt: timestamp('expires_at').notNull()
 });
