@@ -1,6 +1,6 @@
 import type { Widget } from '$lib/widgets/types';
 import { relations, sql } from 'drizzle-orm';
-import { jsonb, pgTable, text, timestamp } from 'drizzle-orm/pg-core';
+import { integer, jsonb, pgTable, text, timestamp } from 'drizzle-orm/pg-core';
 
 export const users = pgTable('users', {
 	id: text('id').primaryKey(),
@@ -39,7 +39,7 @@ export const passkeys = pgTable('passkeys', {
 		.notNull()
 		.references(() => users.id),
 	publicKey: text('public_key').notNull(),
-	counter: text('counter').notNull(),
+	counter: integer('counter').notNull(),
 	name: text('name').notNull(),
 	createdAt: timestamp('created_at').notNull().defaultNow()
 });

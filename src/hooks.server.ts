@@ -13,7 +13,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		});
 	};
 
-	event.locals.getUser = async () => {
+	event.locals.getCurrentUser = async () => {
 		const session = await event.locals.getSession();
 
 		if (!session || !session.user) return null;
