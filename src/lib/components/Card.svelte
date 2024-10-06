@@ -2,8 +2,8 @@
 	import type { Snippet } from 'svelte';
 
 	let {
-		'min-width': minWidth = '100%',
-		'max-width': maxWidth = '100%',
+		'min-width': minWidth,
+		'max-width': maxWidth,
 		children
 	}: {
 		'min-width'?: string;
