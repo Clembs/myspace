@@ -2,7 +2,7 @@
 	import type { Widget } from '../types';
 	import LayoutBlockComponent from './LayoutBlockComponent.svelte';
 
-	export let widget: Widget;
+	let { widget }: { widget: Widget } = $props();
 </script>
 
 <div class="widget">

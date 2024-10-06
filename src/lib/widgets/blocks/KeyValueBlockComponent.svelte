@@ -2,17 +2,22 @@
 	import { replacePlaceholders } from '../placeholders';
 	import type { KeyValueBlock } from '../types';
 
-	export let block: KeyValueBlock;
-	export let data: unknown = undefined;
+	let {
+		block,
+		data = undefined
+	}: {
+		block: KeyValueBlock;
+		data?: unknown;
+	} = $props();
 </script>
 
 <div class="key-value-block">
 	<div class="heading">
 		{replacePlaceholders(block.key, data)}
 	</div>
-	<div class="subtext">
+	<p class="subtext">
 		{replacePlaceholders(block.value, data)}
-	</div>
+	</p>
 </div>
 
 <style lang="scss">

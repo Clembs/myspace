@@ -2,8 +2,13 @@
 	import { replacePlaceholders } from '../placeholders';
 	import type { TextBlock } from '../types';
 
-	export let block: TextBlock;
-	export let data: unknown = undefined;
+	let {
+		block,
+		data = undefined
+	}: {
+		block: TextBlock;
+		data?: unknown;
+	} = $props();
 </script>
 
 {#if block.text_type === 'paragraph'}

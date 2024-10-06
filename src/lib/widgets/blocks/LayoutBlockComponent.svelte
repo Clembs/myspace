@@ -2,12 +2,15 @@
 	import TextBlockComponent from './TextBlockComponent.svelte';
 	import type { LayoutBlock, Widget } from '../types';
 	import KeyValueBlockComponent from './KeyValueBlockComponent.svelte';
+	import LayoutBlockComponent from './LayoutBlockComponent.svelte';
 
-	export let block: Widget | LayoutBlock;
+	import { onMount } from 'svelte';
 
-	let loading = false;
-	let data: unknown;
-	let error: string;
+	let { block }: { block: Widget | LayoutBlock } = $props();
+
+	let loading = $state(false);
+	let data = $state<unknown>();
+	let error = $state<string>();
 
 	async function fetchData() {
 		if (!('json_endpoint' in block) || !block.json_endpoint) return;
@@ -29,7 +32,7 @@
 		data = await response.json();
 	}
 
-	fetchData();
+	onMount(fetchData);
 </script>
 
 <div class="blocks">
@@ -44,7 +47,7 @@
 			{:else if b.type === 'key_value'}
 				<KeyValueBlockComponent block={b} {data} />
 			{:else if b.type === 'layout'}
-				<svelte:self block={b} />
+				<LayoutBlockComponent block={b} />
 			{/if}
 		{/each}
 	{/if}
