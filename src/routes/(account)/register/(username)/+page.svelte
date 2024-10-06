@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { pushState } from '$app/navigation';
+	import { replaceState } from '$app/navigation';
 	import Button from '$lib/components/Button.svelte';
 	import TextInput from '$lib/components/TextInput.svelte';
 	import { USERNAME_REGEX } from '$lib/helpers/regex.js';
@@ -34,7 +34,7 @@
 	<TextInput
 		oninput={() => {
 			form = { message: '' };
-			pushState(`?username=${data.username}${data.email && `&email=${data.email}`}`, data);
+			replaceState(`?username=${data.username}${data.email && `&email=${data.email}`}`, {});
 		}}
 		label="Username"
 		name="username"
@@ -43,6 +43,7 @@
 		maxlength={32}
 		pattern={USERNAME_REGEX.source}
 		tabindex={1}
+		autofocus
 		bind:value={data.username}
 		error={form?.message}
 	/>
