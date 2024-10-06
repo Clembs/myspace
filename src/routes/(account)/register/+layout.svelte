@@ -5,7 +5,7 @@
 </script>
 
 <main>
-	<Card max-width="500px" min-width="500px">
+	<Card max-width="500px">
 		{@render children()}
 	</Card>
 </main>
