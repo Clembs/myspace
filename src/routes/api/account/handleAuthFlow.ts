@@ -1,4 +1,4 @@
-import { EMAIL_REGEX, USERNAME_REGEX } from '$lib/helpers/regex';
+import { USERNAME_REGEX } from '$lib/helpers/regex';
 import { fail, redirect } from '@sveltejs/kit';
 import type { RequestEvent } from './$types';
 import { db } from '$lib/db';
@@ -6,6 +6,7 @@ import { otps, users } from '$lib/db/schema/users';
 import { eq } from 'drizzle-orm';
 import { randomInt } from 'crypto';
 import { generateAuthenticationOptions } from '@simplewebauthn/server';
+import { EMAIL_REGEX } from 'valibot';
 
 // This function:
 // Checks if the user exists (if not, onboard them)
@@ -31,7 +32,11 @@ export async function handleAuthFlow({ request, url }: RequestEvent) {
 
 	// If the user is not found, register them
 	if (!user) {
-		redirect(307, '/register');
+		if (EMAIL_REGEX.test(login)) {
+			redirect(307, `/register?email=${login}`);
+		} else {
+			redirect(307, `/register?username=${login}`);
+		}
 	}
 
 	const browserSupportsPasskeys = formData.get('browserSupportsPasskeys') === 'true';
