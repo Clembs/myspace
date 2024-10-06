@@ -3,7 +3,7 @@
 	import type { HTMLButtonAttributes, HTMLAnchorAttributes } from 'svelte/elements';
 
 	let {
-		type,
+		type = 'button',
 		variant = 'primary',
 		href,
 		disabled = false,
@@ -12,7 +12,7 @@
 		onclick,
 		...restProps
 	}: (HTMLButtonAttributes | HTMLAnchorAttributes) & {
-		type: 'submit' | 'button';
+		type?: 'submit' | 'button';
 		variant?: 'primary' | 'secondary';
 		href?: string;
 		disabled?: boolean;
@@ -55,6 +55,8 @@
 		width: 100%;
 		font-weight: 500;
 		cursor: pointer;
+		text-decoration: none;
+		user-select: none;
 
 		&.inline {
 			display: inline-block;
@@ -64,11 +66,25 @@
 		&.primary {
 			background-color: #000;
 			color: #fff;
+
+			&:hover {
+				background-color: #2b2b2b;
+			}
 		}
 
 		&.secondary {
 			background-color: #fff;
 			color: #000;
+
+			&:hover {
+				background-color: #ededed;
+			}
+		}
+
+		&:disabled,
+		&[aria-disabled='true'] {
+			opacity: 0.5;
+			cursor: not-allowed;
 		}
 	}
 </style>
