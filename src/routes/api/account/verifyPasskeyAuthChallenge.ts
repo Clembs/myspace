@@ -1,4 +1,4 @@
-import { literal, nullable, object, parse, string } from 'valibot';
+import { literal, nullable, object, parse, strictObject, string } from 'valibot';
 import type { RequestEvent } from './$types';
 import { fail } from '@sveltejs/kit';
 import { db } from '$lib/db';
@@ -14,7 +14,7 @@ import { createSession } from '$lib/helpers/sessions';
 export async function verifyPasskeyAuthChallenge({ request, url, cookies }: RequestEvent) {
 	const formData = await request.formData();
 
-	const authDataValidation = object({
+	const authDataValidation = strictObject({
 		login: string(),
 		credential: object({
 			id: string(),
@@ -27,8 +27,7 @@ export async function verifyPasskeyAuthChallenge({ request, url, cookies }: Requ
 				userHandle: nullable(string())
 			}),
 			type: literal('public-key')
-		}),
-		userAgent: string()
+		})
 	});
 
 	const data = parse(authDataValidation, formData.entries());
@@ -83,7 +82,9 @@ export async function verifyPasskeyAuthChallenge({ request, url, cookies }: Requ
 				counter: passkey.counter + 1
 			});
 
-			await createSession(cookies, data.userAgent, user.id);
+			const userAgent = request.headers.get('user-agent') || '';
+
+			await createSession(cookies, userAgent, user.id);
 
 			return { success: true, username: user.username };
 		}

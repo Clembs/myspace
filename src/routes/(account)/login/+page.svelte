@@ -47,7 +47,6 @@
 						const formData = new FormData();
 						formData.append('login', login);
 						formData.append('credential', JSON.stringify(credential));
-						formData.append('userAgent', navigator.userAgent);
 
 						const req = await fetch('/api/account?/verifyPasskeyAuthChallenge', {
 							method: 'POST',
