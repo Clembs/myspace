@@ -34,7 +34,7 @@
 		({ update }) => {
 			update({ reset: false });
 		}}
-	action="?/sendOTP&type=register"
+	action="?/validateEmail"
 	method="post"
 >
 	<TextInput
