@@ -13,7 +13,7 @@ export async function createSession(cookies: Cookies, userAgent: string, userId:
 	let browserName = 'Unknown';
 	let osName = 'Unknown';
 
-	switch (browser?.[0]) {
+	switch (browser?.[0].toLowerCase()) {
 		case 'edg':
 			browserName = 'Edge';
 			break;
@@ -36,7 +36,7 @@ export async function createSession(cookies: Cookies, userAgent: string, userId:
 			browserName = 'Unknown';
 	}
 
-	switch (os?.[0]) {
+	switch (os?.[0].toLowerCase()) {
 		case 'android':
 			osName = 'Android';
 			deviceType = 'mobile';
