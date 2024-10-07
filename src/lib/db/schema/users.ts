@@ -8,7 +8,7 @@ export const users = pgTable('users', {
 	challenge: text('challenge'),
 	challengeExpiresAt: timestamp('challenge_expires_at'),
 	username: text('username').notNull().unique(),
-	displayName: text('display_name').notNull(),
+	displayName: text('display_name'),
 	avatar: text('avatar'),
 	birthdate: text('birthdate'),
 	pronouns: text('pronouns'),
@@ -18,7 +18,9 @@ export const users = pgTable('users', {
 	widgets: jsonb('widgets').default([]).$type<Widget[]>(),
 	status: text('status', {
 		enum: ['online', 'dnd', 'offline']
-	}).notNull()
+	})
+		.notNull()
+		.default('offline')
 });
 
 export const usersRelations = relations(users, ({ many }) => ({
@@ -53,16 +55,16 @@ export const passkeysRelations = relations(passkeys, ({ one }) => ({
 
 export type Passkey = typeof passkeys.$inferSelect;
 
-export const otps = pgTable('otps', {
+export const authCodes = pgTable('auth_codes', {
 	id: text('id')
 		.primaryKey()
 		.default(sql`gen_random_uuid()`),
-	otp: text('otp').notNull(),
+	code: text('code').notNull(),
 	email: text('email').notNull(),
 	expiresAt: timestamp('expires_at').notNull()
 });
 
-export type Otp = typeof otps.$inferSelect;
+export type AuthCode = typeof authCodes.$inferSelect;
 
 export const sessions = pgTable('sessions', {
 	id: text('id')

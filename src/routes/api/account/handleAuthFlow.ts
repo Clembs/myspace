@@ -2,7 +2,7 @@ import { USERNAME_REGEX } from '$lib/helpers/regex';
 import { fail, redirect } from '@sveltejs/kit';
 import type { RequestEvent } from './$types';
 import { db } from '$lib/db';
-import { otps, users } from '$lib/db/schema/users';
+import { authCodes, users } from '$lib/db/schema/users';
 import { eq } from 'drizzle-orm';
 import { randomInt } from 'crypto';
 import { generateAuthenticationOptions } from '@simplewebauthn/server';
@@ -67,10 +67,10 @@ export async function handleAuthFlow({ request, url }: RequestEvent) {
 		};
 	} else {
 		// Generate an OTP and email it
-		const otp = randomInt(0, 999999).toString().padStart(6, '0');
+		const authCode = randomInt(0, 999999).toString().padStart(6, '0');
 		const expiresAt = new Date(Date.now() + 60000); // 1 minute
 
-		await db.insert(otps).values({ email: user.email, otp, expiresAt: expiresAt });
+		await db.insert(authCodes).values({ email: user.email, code: authCode, expiresAt: expiresAt });
 
 		// TODO: send OTP via email
 
