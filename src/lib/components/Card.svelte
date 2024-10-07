@@ -20,12 +20,15 @@
 	div {
 		display: flex;
 		flex-direction: column;
-		gap: 1.5rem;
-		background-color: #fff;
+		gap: calc(var(--base-gap) * 1.5);
+		background-color: var(--widgets-background-color);
 		min-width: var(--min-width);
 		max-width: var(--max-width);
-		padding: 1rem;
-		padding-top: 1.25rem;
-		border-radius: 1rem;
+		padding: var(--base-padding);
+		padding-top: calc(var(--base-padding) * 1.5);
+		border-radius: var(--widgets-border-base-radius);
+		border: var(--widgets-border-width) solid var(--widgets-border-color);
+		box-shadow: var(--widgets-box-shadow-x) var(--widgets-box-shadow-y)
+			var(--widgets-box-shadow-blur) var(--widgets-box-shadow-color);
 	}
 </style>

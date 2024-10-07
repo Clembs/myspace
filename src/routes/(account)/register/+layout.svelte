@@ -15,5 +15,6 @@
 		display: grid;
 		place-items: center;
 		height: 100vh;
+		padding: 0 calc(var(--base-padding) * 0.5);
 	}
 </style>

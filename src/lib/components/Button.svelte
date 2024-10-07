@@ -48,9 +48,8 @@
 <style lang="scss">
 	a,
 	button {
-		padding: 0.75rem 1rem;
-		border: 1px solid #000;
-		border-radius: 0.5rem;
+		padding: calc(var(--base-padding) * 0.75) var(--base-padding);
+		border-radius: var(--inputs-border-base-radius);
 		text-align: center;
 		width: 100%;
 		font-weight: 500;
@@ -64,20 +63,22 @@
 		}
 
 		&.primary {
-			background-color: #000;
-			color: #fff;
+			background-color: var(--buttons-primary-background-color);
+			color: var(--buttons-primary-on-background-color);
+			border: var(--inputs-border-width) solid var(--buttons-primary-background-color);
 
 			&:hover {
-				background-color: #2b2b2b;
+				opacity: 0.815;
 			}
 		}
 
 		&.secondary {
-			background-color: #fff;
-			color: #000;
+			background-color: var(--inputs-background-color);
+			color: var(--inputs-on-background-color);
+			border: var(--inputs-border-width) solid var(--inputs-border-color);
 
 			&:hover {
-				background-color: #ededed;
+				background-color: var(--widgets-background-color-dim);
 			}
 		}
 

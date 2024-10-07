@@ -1,0 +1,50 @@
+:root {
+	--plain-90: #fff;
+	--plain-80: #f2f2f2;
+	--plain-70: #d9d9d9;
+	--plain-60: #999;
+	--plain-50: #656565;
+	--plain-20: #2b2b2b;
+	--plain-0: #000;
+	--font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+		Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+	// Background
+	--background: var(--plain-80);
+	// Avatar
+	--avatar-size: 80px;
+	--avatar-border-radius: 50%;
+	// Font
+	--color-paragraph: var(--plain-50);
+	--color-heading: var(--plain-0);
+	// Spacing
+	--base-padding: 1rem;
+	--base-gap: 1rem;
+	// Widgets
+	--widgets-background-color: var(--plain-90);
+	--widgets-background-color-dim: var(--plain-80);
+	--widgets-border-width: 1px;
+	--widgets-border-color: var(--plain-60);
+	--widgets-border-base-radius: 1rem;
+	--widgets-box-shadow-x: 0;
+	--widgets-box-shadow-y: 0;
+	--widgets-box-shadow-blur: 10px;
+	--widgets-box-shadow-spread: 0;
+	--widgets-box-shadow-color: rgba(0, 0, 0, 0.1);
+	// Primary buttons
+	--buttons-primary-background-color: var(--plain-0);
+	--buttons-primary-on-background-color: var(--plain-90);
+	--buttons-primary-box-shadow-color: none;
+	--buttons-primary-border-color: var(--plain-0);
+	// Secondary buttons & inputs
+	--inputs-background-color: var(--plain-90);
+	--inputs-on-background-color: var(--plain-0);
+	--inputs-box-shadow-color: none;
+	--inputs-border-width: 1px;
+	--inputs-border-color: var(--plain-60);
+	--inputs-border-base-radius: 0.5rem;
+	--inputs-box-shadow-x: 0;
+	--inputs-box-shadow-y: 0;
+	--inputs-box-shadow-blur: 10px;
+	--inputs-box-shadow-spread: 0;
+}

@@ -53,9 +53,9 @@
 		.input {
 			display: flex;
 			align-items: center;
-			border: 1px solid #000;
-			border-radius: 0.5rem;
-			margin-top: 0.5rem;
+			border: var(--inputs-border-width) solid var(--inputs-border-color);
+			border-radius: var(--inputs-border-base-radius);
+			margin-top: calc(var(--base-gap) * 0.5);
 
 			&.error {
 				border-color: #e90000;
@@ -65,23 +65,24 @@
 			.prefix-icon {
 				display: grid;
 				place-items: center;
-				padding: 0.75rem;
-				border-radius: 0.5rem 0 0 0.5rem;
-				border-right: 1px solid #000;
-				background-color: #d9d9d9;
+				padding: calc(var(--base-padding) * 0.5);
+				border-radius: var(--inputs-border-base-radius) 0 0 var(--inputs-border-base-radius);
+				border-right: var(--inputs-border-width) solid var(--inputs-border-color);
+				background-color: var(--widgets-background-color-dim);
+				color: var(--inputs-on-background-color);
 				height: 3rem;
 			}
 
 			input {
-				padding: 0.75rem 1rem;
-				border-radius: 0.5rem;
+				padding: calc(var(--base-padding) * 0.75) var(--base-padding);
+				border-radius: var(--inputs-border-base-radius);
 				width: 100%;
 				border: transparent;
-				background-color: #ededed;
+				background-color: var(--color-input);
 			}
 
 			.prefix-icon + input {
-				border-radius: 0 0.5rem 0.5rem 0;
+				border-radius: 0 var(--inputs-border-base-radius) var(--inputs-border-base-radius) 0;
 			}
 		}
 
