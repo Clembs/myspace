@@ -86,6 +86,11 @@ export async function handleAuthFlow({ request, url }: RequestEvent) {
 			fetch
 		});
 
+		// If the login is invalid, suggest the user to register
+		if (!USERNAME_REGEX.test(login) && !EMAIL_REGEX.test(login)) {
+			redirect(307, '/register');
+		}
+
 		redirect(303, `/login/verify-otp?login=${user.email}`);
 	}
 }
