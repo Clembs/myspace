@@ -1,11 +1,16 @@
 import { SENDGRID_API_KEY } from '$env/static/private';
 
-export async function sendEmail(
-	address: string,
-	subject: string,
-	bodyHTML: string,
-	fetch: typeof globalThis.fetch
-) {
+export async function sendEmail({
+	address,
+	subject,
+	bodyHTML,
+	fetch
+}: {
+	address: string;
+	subject: string;
+	bodyHTML: string;
+	fetch: typeof globalThis.fetch;
+}) {
 	const response = await fetch(`https://api.sendgrid.com/v3/mail/send`, {
 		method: 'POST',
 		headers: {

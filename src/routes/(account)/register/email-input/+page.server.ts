@@ -50,15 +50,15 @@ export const actions: Actions = {
 			})
 			.returning();
 
-		await sendEmail(
-			email,
-			'Islands Email Verification',
-			`
-<p>Enter the code below on the website to verify your email address and continue with your registration:</p>
-<h1>${code}</h1>
-			`,
+		await sendEmail({
+			address: email,
+			subject: 'Islands Email Verification',
+			bodyHTML: `
+				<p>Enter the code below on the website to verify your email address and continue with your registration:</p>
+				<h1>${code}</h1>
+							`,
 			fetch
-		);
+		});
 
 		throw redirect(302, `/register/verify-otp?username=${username}&email=${email}`);
 	}
