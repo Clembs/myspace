@@ -30,13 +30,15 @@
 		pattern={`\\d\{6\}`}
 		minlength={6}
 		maxlength={6}
-		label="One-time password"
+		label="Verfiication code"
+		tabindex={1}
+		autofocus
 		error={form?.message}
 	/>
 
 	<div class="buttons">
 		<Button
-			type="submit"
+			type="button"
 			variant="secondary"
 			href="/register/email-input?username={data.username}&email={data.email}"
 			tabindex={3}
