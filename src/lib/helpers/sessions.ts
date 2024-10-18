@@ -51,7 +51,7 @@ export async function createSession(cookies: Cookies, userAgent: string, userId:
 			break;
 		case 'linux':
 			osName = 'Linux';
-			deviceType = 'mobile';
+			deviceType = 'desktop';
 			break;
 		case 'windows':
 			osName = 'Windows';
