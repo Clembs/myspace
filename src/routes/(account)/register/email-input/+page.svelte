@@ -52,7 +52,7 @@
 
 	<div class="buttons">
 		<Button
-			type="submit"
+			type="button"
 			variant="secondary"
 			href="/register?username={data.username}{data.email && `&email=${data.email}`}"
 			tabindex={3}
