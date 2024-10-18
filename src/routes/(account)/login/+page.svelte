@@ -5,9 +5,9 @@
 	import Card from '$lib/components/Card.svelte';
 	import TextInput from '$lib/components/TextInput.svelte';
 	import { onMount } from 'svelte';
-	import { object, string, array, number, literal, regex, parse } from 'valibot';
+	import { object, string, array, literal, parse } from 'valibot';
 
-	let login = $state('');
+	let { data } = $props();
 	let browserSupportsPasskeys = $state(false);
 
 	onMount(() => {
@@ -38,17 +38,17 @@
 							})
 						});
 
-						const data = parse(resultValidation, result.data);
+						const resultData = parse(resultValidation, result.data);
 
 						const { startAuthentication } = await import('@simplewebauthn/browser');
 
-						const credential = await startAuthentication(data.options);
+						const credential = await startAuthentication(resultData.options);
 
 						const formData = new FormData();
-						formData.append('login', login);
+						formData.append('login', data.login!);
 						formData.append('credential', JSON.stringify(credential));
 
-						const req = await fetch('/api/account?/verifyPasskeyAuthChallenge', {
+						const req = await fetch('/login?/verifyPasskeyAuthChallenge', {
 							method: 'POST',
 							body: formData
 						});
@@ -63,22 +63,24 @@
 							}
 						}
 					} else {
-						await update();
+						await update({
+							invalidateAll: false
+						});
 					}
 				}}
-			action="/api/account?/handleAuthFlow"
+			action="?/handleAuthFlow"
 			method="post"
 		>
 			<TextInput
 				autocomplete="email webauthn"
-				tabindex={1}
 				label="Email or username"
 				name="login"
 				type="text"
-				bind:value={login}
+				autofocus
+				bind:value={data.login}
 			/>
 
-			<Button tabindex={2} type="submit">Continue</Button>
+			<Button type="submit">Continue</Button>
 		</form>
 	</Card>
 </main>
