@@ -1,8 +1,8 @@
 <script lang="ts">
-	import WidgetComponent from '$lib/widgets/blocks/WidgetComponent.svelte';
-	import type { Widget } from '$lib/widgets/types';
+	import WidgetComponent from '$lib/widgets/blocks/CustomWidgetComponent.svelte';
+	import type { CustomWidget } from '$lib/widgets/types';
 
-	const sampleWidget: Widget = {
+	const sampleWidget: CustomWidget = {
 		id: 'friends',
 		position: 0,
 		blocks: [

@@ -1,12 +1,12 @@
 <script lang="ts">
 	import TextBlockComponent from './TextBlockComponent.svelte';
-	import type { LayoutBlock, Widget } from '../types';
+	import type { LayoutBlock, CustomWidget } from '../types';
 	import KeyValueBlockComponent from './KeyValueBlockComponent.svelte';
 	import LayoutBlockComponent from './LayoutBlockComponent.svelte';
 
 	import { onMount } from 'svelte';
 
-	let { block }: { block: Widget | LayoutBlock } = $props();
+	let { block }: { block: CustomWidget | LayoutBlock } = $props();
 
 	let loading = $state(false);
 	let data = $state<unknown>();

@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { Widget } from '../types';
+	import type { CustomWidget } from '../types';
 	import LayoutBlockComponent from './LayoutBlockComponent.svelte';
 
-	let { widget }: { widget: Widget } = $props();
+	let { widget }: { widget: CustomWidget } = $props();
 </script>
 
 <div class="widget">

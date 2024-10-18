@@ -1,6 +1,9 @@
-export type Widget = {
+export type BaseDefaultWidget = {
 	id: string;
 	position: number;
+};
+
+export type CustomWidget = BaseDefaultWidget & {
 	blocks: AnyBlock[];
 };
 
