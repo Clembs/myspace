@@ -1,5 +1,4 @@
 import { literal, nullable, object, parse, strictObject, string } from 'valibot';
-import type { RequestEvent } from './$types';
 import { fail } from '@sveltejs/kit';
 import { db } from '$lib/db';
 import {
@@ -10,6 +9,7 @@ import { type AuthenticationResponseJSON } from '@simplewebauthn/types';
 import { passkeys, users } from '$lib/db/schema/users';
 import { eq } from 'drizzle-orm';
 import { createSession } from '$lib/helpers/sessions';
+import type { RequestEvent } from './$types';
 
 export async function verifyPasskeyAuthChallenge({ request, url, cookies }: RequestEvent) {
 	const formData = await request.formData();

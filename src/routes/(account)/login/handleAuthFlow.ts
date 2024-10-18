@@ -7,11 +7,12 @@ import { eq } from 'drizzle-orm';
 import { randomInt } from 'crypto';
 import { generateAuthenticationOptions } from '@simplewebauthn/server';
 import { EMAIL_REGEX } from 'valibot';
+import { sendEmail } from '$lib/helpers/email';
 
 // This function:
 // Checks if the user exists (if not, onboard them)
 // Checks if the user has a passkey & the browser supports them
-// - If true, generates a challenge for the user to sign in
+// - If true, generates a challenge for the user to log in
 // - Otherwise, generate an OTP and email it
 export async function handleAuthFlow({ request, url }: RequestEvent) {
 	const formData = await request.formData();
@@ -70,12 +71,21 @@ export async function handleAuthFlow({ request, url }: RequestEvent) {
 		const authCode = randomInt(0, 999999).toString().padStart(6, '0');
 		const expiresAt = new Date(Date.now() + 60000); // 1 minute
 
-		await db.insert(authCodes).values({ email: user.email, code: authCode, expiresAt: expiresAt });
+		const [{ code }] = await db
+			.insert(authCodes)
+			.values({ email: user.email, code: authCode, expiresAt: expiresAt })
+			.returning();
 
-		// TODO: send OTP via email
+		await sendEmail({
+			address: user.email,
+			subject: 'Your Islands one-time password',
+			bodyHTML: `
+				<p>Enter the code below on the website to login to Islands:</p>
+				<h1>${code}</h1>
+							`,
+			fetch
+		});
 
-		return {
-			authType: 'email-otp'
-		};
+		redirect(303, `/login/verify-otp?login=${user.email}`);
 	}
 }
