@@ -10,19 +10,22 @@ export const users = pgTable('users', {
 	username: text('username').notNull().unique(),
 	displayName: text('display_name'),
 	avatar: text('avatar'),
-	birthdate: text('birthdate'),
 	pronouns: text('pronouns'),
 	last_online: timestamp('last_online', {
 		withTimezone: true
-	}).defaultNow(),
+	})
+		.notNull()
+		.defaultNow(),
 	widgets: jsonb('widgets')
+		.notNull()
 		.default([
 			[
 				{
 					id: 'music',
 					position: 1,
 					content_url: undefined,
-					content_type: undefined
+					content_type: undefined,
+					title: undefined
 				},
 				{
 					id: 'favorites',
@@ -45,8 +48,7 @@ export const users = pgTable('users', {
 				}
 			]
 		] as AnyWidget[][])
-		.$type<AnyWidget[][]>()
-		.notNull(),
+		.$type<AnyWidget[][]>(),
 	status: text('status', {
 		enum: ['online', 'dnd', 'offline']
 	})
@@ -61,6 +63,8 @@ export const usersRelations = relations(users, ({ many }) => ({
 }));
 
 export type User = typeof users.$inferSelect;
+
+export type PublicUser = Omit<User, 'challenge' | 'challengeExpiresAt' | 'email'>;
 
 export type FullUser = User & {
 	passkeys: Passkey[];
