@@ -1,4 +1,4 @@
-import type { Widget } from '$lib/widgets/types';
+import type { AnyWidget } from '$lib/widgets/types';
 import { relations, sql } from 'drizzle-orm';
 import { integer, jsonb, pgTable, text, timestamp } from 'drizzle-orm/pg-core';
 
@@ -15,12 +15,44 @@ export const users = pgTable('users', {
 	last_online: timestamp('last_online', {
 		withTimezone: true
 	}).defaultNow(),
-	widgets: jsonb('widgets').default([]).$type<Widget[]>(),
+	widgets: jsonb('widgets')
+		.default([
+			[
+				{
+					id: 'music',
+					position: 1,
+					content_url: undefined,
+					content_type: undefined
+				},
+				{
+					id: 'favorites',
+					position: 2
+				}
+			],
+			[
+				{
+					id: 'about_me',
+					content: 'Hello, Islands!',
+					position: 1
+				},
+				{
+					id: 'friends',
+					position: 2
+				},
+				{
+					id: 'comments',
+					position: 3
+				}
+			]
+		] as AnyWidget[][])
+		.$type<AnyWidget[][]>()
+		.notNull(),
 	status: text('status', {
 		enum: ['online', 'dnd', 'offline']
 	})
 		.notNull()
 		.default('offline')
+	// theme: jsonb('theme')
 });
 
 export const usersRelations = relations(users, ({ many }) => ({

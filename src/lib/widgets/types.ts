@@ -30,3 +30,34 @@ export type KeyValueBlock = Block & {
 };
 
 export type AnyBlock = TextBlock | LayoutBlock | KeyValueBlock;
+
+export type MusicWidget = BaseDefaultWidget & {
+	id: 'music';
+	content_url: string | undefined | null;
+	content_type: 'spotify' | 'youtube' | 'soundcloud' | `audio/${string}` | undefined | null;
+};
+
+export type AboutMeWidget = BaseDefaultWidget & {
+	id: 'about_me';
+	content: string;
+};
+
+export type FriendsWidget = BaseDefaultWidget & {
+	id: 'friends';
+};
+
+export type PostsWidget = BaseDefaultWidget & {
+	id: 'posts';
+};
+
+export type CommentsWidget = BaseDefaultWidget & {
+	id: 'comments';
+};
+
+export type AnyWidget =
+	| MusicWidget
+	| AboutMeWidget
+	| FriendsWidget
+	| PostsWidget
+	| CommentsWidget
+	| CustomWidget;
