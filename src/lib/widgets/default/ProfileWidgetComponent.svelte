@@ -18,8 +18,7 @@
 
 	<div class="less-important-stuff">
 		<p>
-			🍰
-			{formatDate(snowflakeToDate(user.id), 'en-US')}
+			Joined on {formatDate(snowflakeToDate(user.id), 'en-US')}
 			{#if user.pronouns}
 				&bull; {user.pronouns}
 			{/if}

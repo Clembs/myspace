@@ -17,6 +17,9 @@
 		{:else if widget.id === 'music' && 'content_url' in widget && widget.content_url}
 			<MusicWidgetComponent user={data.user} {widget} />
 			<div>favorites</div>
+		{:else if 'blocks' in widget}
+			<CustomWidgetComponent user={data.user} {widget} />
+		{/if}
 	{/each}
 {/snippet}
 

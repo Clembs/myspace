@@ -6,7 +6,13 @@
 
 	import { onMount } from 'svelte';
 
-	let { block }: { block: CustomWidget | LayoutBlock } = $props();
+	let {
+		user,
+		block
+	}: {
+		user: { id: string };
+		block: CustomWidget | LayoutBlock;
+	} = $props();
 
 	let loading = $state(false);
 	let data = $state<unknown>();
@@ -16,7 +22,7 @@
 		if (!('json_endpoint' in block) || !block.json_endpoint) return;
 
 		loading = true;
-		const response = await fetch(block.json_endpoint.replace('{userid}', '1'));
+		const response = await fetch(block.json_endpoint.replace('{userid}', user.id));
 
 		if (!response.ok) {
 			error = await response.text();
@@ -47,7 +53,7 @@
 			{:else if b.type === 'key_value'}
 				<KeyValueBlockComponent block={b} {data} />
 			{:else if b.type === 'layout'}
-				<LayoutBlockComponent block={b} />
+				<LayoutBlockComponent {user} block={b} />
 			{/if}
 		{/each}
 	{/if}
