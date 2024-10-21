@@ -1,20 +1,27 @@
 <script lang="ts">
 	import Card from '$lib/components/Card.svelte';
+	import TextInput from '$lib/components/TextInput.svelte';
 	import type { User } from '$lib/db/schema/users';
 	import type { AboutMeWidget } from '../types';
 
 	let {
-		widget
+		widget,
+		edit = false
 	}: {
 		user: Partial<User>;
 		widget: AboutMeWidget;
+		edit?: boolean;
 	} = $props();
 </script>
 
 <Card>
 	<div class="about-me">
 		<h2>About me</h2>
-		<p>{widget.content}</p>
+		{#if !edit}
+			<p>{widget.content}</p>
+		{:else}
+			<TextInput name="about-me" value={widget.content} />
+		{/if}
 	</div>
 </Card>
 

@@ -3,7 +3,11 @@ import { error, redirect } from '@sveltejs/kit';
 import type { LayoutServerLoad } from './$types';
 import { sql } from 'drizzle-orm';
 
-export const load: LayoutServerLoad = async ({ params: { username } }) => {
+export const load: LayoutServerLoad = async ({
+	params: { username },
+	url,
+	locals: { getCurrentUser }
+}) => {
 	const user = await db.query.users.findFirst({
 		where: (user, { eq }) => eq(sql`LOWER(${user.username})`, username.toLowerCase()),
 		columns: {
@@ -25,7 +29,18 @@ export const load: LayoutServerLoad = async ({ params: { username } }) => {
 		redirect(301, `/${user.username}`);
 	}
 
+	const currentUser = await getCurrentUser();
+	const isCurrentUser = currentUser && currentUser.id === user.id;
+
+	if (url.searchParams.has('edit')) {
+		if (!isCurrentUser) {
+			redirect(302, `/${user.username}`);
+		}
+	}
+
 	return {
-		user
+		user,
+		editable: isCurrentUser,
+		edit: url.searchParams.has('edit')
 	};
 };

@@ -13,16 +13,18 @@
 		...restProps
 	}: HTMLInputAttributes & {
 		name: string;
-		label: string;
+		label?: string;
 		error?: string;
 		prefixIcon?: Snippet<[number]>;
 	} = $props();
 </script>
 
 <label class="text-input" for={name}>
-	<div class="label-text">
-		{label}
-	</div>
+	{#if label}
+		<div class="label-text">
+			{label}
+		</div>
+	{/if}
 
 	<div class="input" class:error>
 		{#if prefixIcon}

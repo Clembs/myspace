@@ -1,4 +1,7 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
+	import Button from '$lib/components/Button.svelte';
+	import CustomWidgetComponent from '$lib/widgets/blocks/CustomWidgetComponent.svelte';
 	import AboutMeWidgetComponent from '$lib/widgets/default/AboutMeWidgetComponent.svelte';
 	import MusicWidgetComponent from '$lib/widgets/default/MusicWidgetComponent.svelte';
 	import ProfileWidgetComponent from '$lib/widgets/default/ProfileWidgetComponent.svelte';
@@ -9,16 +12,15 @@
 
 {#snippet widgets(widgets: AnyWidget[])}
 	{#each widgets as widget}
-		<!-- {widget.id}<br /> -->
 		{#if widget.id === 'about_me' && 'content' in widget}
-			<AboutMeWidgetComponent user={data.user} {widget} />
+			<AboutMeWidgetComponent user={data.user} {widget} edit={data.edit} />
 		{:else if widget.id === 'music' && 'content_url' in widget && widget.content_url}
 			<MusicWidgetComponent user={data.user} {widget} />
-		{/if}
+			<div>favorites</div>
 	{/each}
 {/snippet}
 
-<main>
+{#snippet columns()}
 	<div class="column">
 		<ProfileWidgetComponent user={data.user} />
 		{@render widgets(data.user.widgets[0].sort((a, b) => a.position - b.position))}
@@ -27,13 +29,39 @@
 	<div class="column">
 		{@render widgets(data.user.widgets[1].sort((a, b) => a.position - b.position))}
 	</div>
-</main>
+{/snippet}
+
+{#if data.edit}
+	<form use:enhance action="?editProfile">
+		{@render columns()}
+	</form>
+{:else}
+	<main>
+		{@render columns()}
+	</main>
+{/if}
+
+{#if data.editable}
+	<div id="edit-button">
+		{#if !data.edit}
+			<Button href="?edit">Edit profile</Button>
+		{:else}
+			<Button variant="secondary" href="/{data.user.username}">Cancel</Button>
+		{/if}
+	</div>
+{/if}
 
 <style lang="scss">
-	main {
-		display: flex;
-		padding: calc(var(--base-padding) * 2);
+	main,
+	form {
+		display: grid;
+		padding: clamp(calc(var(--base-padding) / 2), 2vw, calc(var(--base-padding) * 2));
 		gap: var(--base-gap);
+		grid-template-columns: 1fr 1.5fr;
+
+		@media (max-width: 950px) {
+			grid-template-columns: 1fr;
+		}
 
 		.column {
 			flex: 1;
@@ -41,5 +69,12 @@
 			flex-direction: column;
 			gap: var(--base-gap);
 		}
+	}
+
+	#edit-button {
+		position: fixed;
+		bottom: var(--base-padding);
+		right: var(--base-padding);
+		z-index: 100;
 	}
 </style>
