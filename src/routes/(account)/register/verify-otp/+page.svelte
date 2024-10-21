@@ -3,7 +3,10 @@
 	import Button from '$lib/components/Button.svelte';
 	import TextInput from '$lib/components/TextInput.svelte';
 
-	let { data, form } = $props();
+	let { data: initialData, form } = $props();
+
+	// do that so you can bind the value to the input
+	let data = $state(initialData);
 </script>
 
 <header>

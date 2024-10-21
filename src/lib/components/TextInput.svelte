@@ -15,6 +15,7 @@
 		name: string;
 		label?: string;
 		error?: string;
+		value?: string;
 		prefixIcon?: Snippet<[number]>;
 	} = $props();
 </script>
@@ -35,8 +36,21 @@
 		<input {type} id={name} {name} {...restProps} bind:value />
 	</div>
 
-	{#if error}
-		<p class="error">{error}</p>
+	{#if error || restProps.maxlength}
+		<div class="bottom">
+			{#if error}
+				<p class="error">{error}</p>
+			{/if}
+
+			<!-- Whitespace char to always align the max length to the right -->
+			&nbsp;
+
+			{#if restProps.maxlength}
+				<p>
+					{value.length}/{restProps.maxlength.toLocaleString()}
+				</p>
+			{/if}
+		</div>
 	{/if}
 </label>
 
@@ -86,6 +100,11 @@
 			.prefix-icon + input {
 				border-radius: 0 var(--inputs-border-base-radius) var(--inputs-border-base-radius) 0;
 			}
+		}
+
+		.bottom {
+			display: flex;
+			justify-content: space-between;
 		}
 
 		.error {

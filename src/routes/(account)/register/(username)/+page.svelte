@@ -5,8 +5,11 @@
 	import TextInput from '$lib/components/TextInput.svelte';
 	import { USERNAME_REGEX } from '$lib/helpers/regex.js';
 
-	let { data, form } = $props();
+	let { data: initialData, form } = $props();
 	let isLoading = $state(false);
+
+	// do that so you can bind the value to the input
+	let data = $state(initialData);
 </script>
 
 {#snippet usernameIcon(size: number)}
