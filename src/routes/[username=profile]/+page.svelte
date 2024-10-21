@@ -35,7 +35,7 @@
 {/snippet}
 
 {#if data.edit}
-	<form use:enhance action="?editProfile">
+	<form use:enhance method="post" action="?/editProfile">
 		{@render columns()}
 	</form>
 {:else}
