@@ -48,6 +48,7 @@
 <style lang="scss">
 	a,
 	button {
+		display: block;
 		padding: calc(var(--base-padding) * 0.75) var(--base-padding);
 		border-radius: var(--inputs-border-base-radius);
 		text-align: center;
