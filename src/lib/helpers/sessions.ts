@@ -76,7 +76,7 @@ export async function createSession(cookies: Cookies, userAgent: string, userId:
 		})
 		.returning();
 
-	cookies.set('session', session.id, {
+	cookies.set('sessionId', session.id, {
 		path: '/',
 		httpOnly: true,
 		secure: true,
