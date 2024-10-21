@@ -3,7 +3,7 @@ import { fail, redirect } from '@sveltejs/kit';
 import type { RequestEvent } from './$types';
 import { db } from '$lib/db';
 import { authCodes, users } from '$lib/db/schema/users';
-import { eq } from 'drizzle-orm';
+import { eq, sql } from 'drizzle-orm';
 import { randomInt } from 'crypto';
 import { generateAuthenticationOptions } from '@simplewebauthn/server';
 import { EMAIL_REGEX } from 'valibot';
@@ -25,7 +25,8 @@ export async function handleAuthFlow({ request, url }: RequestEvent) {
 	}
 
 	const user = await db.query.users.findFirst({
-		where: ({ email, username }, { or, eq }) => or(eq(email, login), eq(username, login)),
+		where: ({ email, username }, { or, eq }) =>
+			or(eq(email, login), eq(sql`LOWER(${username})`, login.toLowerCase())),
 		with: {
 			passkeys: true
 		}
@@ -69,7 +70,7 @@ export async function handleAuthFlow({ request, url }: RequestEvent) {
 	} else {
 		// Generate an OTP and email it
 		const authCode = randomInt(0, 999999).toString().padStart(6, '0');
-		const expiresAt = new Date(Date.now() + 60000); // 1 minute
+		const expiresAt = new Date(Date.now() + 60000 * 10); // 10 minutes
 
 		const [{ code }] = await db
 			.insert(authCodes)
