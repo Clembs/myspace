@@ -34,12 +34,15 @@
 	// Primary buttons
 	--buttons-primary-background-color: var(--plain-0);
 	--buttons-primary-on-background-color: var(--plain-90);
-	--buttons-primary-box-shadow-color: none;
 	--buttons-primary-border-color: var(--plain-0);
+	--buttons-primary-box-shadow-x: 0;
+	--buttons-primary-box-shadow-y: 0;
+	--buttons-primary-box-shadow-blur: 10px;
+	--buttons-primary-box-shadow-spread: 0;
+	--buttons-primary-box-shadow-color: none;
 	// Secondary buttons & inputs
 	--inputs-background-color: var(--plain-90);
 	--inputs-on-background-color: var(--plain-0);
-	--inputs-box-shadow-color: none;
 	--inputs-border-width: 1px;
 	--inputs-border-color: var(--plain-60);
 	--inputs-border-base-radius: 0.5rem;
@@ -47,4 +50,5 @@
 	--inputs-box-shadow-y: 0;
 	--inputs-box-shadow-blur: 10px;
 	--inputs-box-shadow-spread: 0;
+	--inputs-box-shadow-color: none;
 }
