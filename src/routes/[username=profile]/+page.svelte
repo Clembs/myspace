@@ -1,6 +1,7 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
 	import Button from '$lib/components/Button.svelte';
+	import { plainTheme } from '$lib/themes/mergeThemes.js';
+	import ThemeProvider from '$lib/themes/ThemeProvider.svelte';
 	import CustomWidgetComponent from '$lib/widgets/blocks/CustomWidgetComponent.svelte';
 	import AboutMeWidgetComponent from '$lib/widgets/default/AboutMeWidgetComponent.svelte';
 	import MusicWidgetComponent from '$lib/widgets/default/MusicWidgetComponent.svelte';
@@ -16,33 +17,23 @@
 			<AboutMeWidgetComponent user={data.user} {widget} edit={data.edit} />
 		{:else if widget.id === 'music' && 'content_url' in widget && widget.content_url}
 			<MusicWidgetComponent user={data.user} {widget} />
-			<div>favorites</div>
 		{:else if 'blocks' in widget}
 			<CustomWidgetComponent user={data.user} {widget} />
 		{/if}
 	{/each}
 {/snippet}
 
-{#snippet columns()}
-	<div class="column">
-		<ProfileWidgetComponent user={data.user} />
-		{@render widgets(data.user.widgets[0].sort((a, b) => a.position - b.position))}
-	</div>
-
-	<div class="column">
-		{@render widgets(data.user.widgets[1].sort((a, b) => a.position - b.position))}
-	</div>
-{/snippet}
-
-{#if data.edit}
-	<form use:enhance method="post" action="?/editProfile">
-		{@render columns()}
-	</form>
-{:else}
+<ThemeProvider theme={plainTheme}>
 	<main>
-		{@render columns()}
+		<div class="column">
+			<ProfileWidgetComponent user={data.user} />
+			{@render widgets(data.user.widgets[0].sort((a, b) => a.position - b.position))}
+		</div>
+		<div class="column">
+			{@render widgets(data.user.widgets[1].sort((a, b) => a.position - b.position))}
+		</div>
 	</main>
-{/if}
+</ThemeProvider>
 
 {#if data.editable}
 	<div id="edit-button">
@@ -55,8 +46,9 @@
 {/if}
 
 <style lang="scss">
-	main,
-	form {
+	main {
+		background: var(--background);
+		min-height: 100vh;
 		display: grid;
 		padding: clamp(calc(var(--base-padding) / 2), 2vw, calc(var(--base-padding) * 2));
 		gap: var(--base-gap);
