@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
-	import type { HTMLInputAttributes } from 'svelte/elements';
+	import type { HTMLInputAttributes, HTMLTextareaAttributes } from 'svelte/elements';
 
 	let {
 		type,
@@ -8,16 +8,19 @@
 		error,
 		name,
 		required = true,
+		multiline = false,
 		prefixIcon,
 		value = $bindable(''),
 		...restProps
-	}: HTMLInputAttributes & {
-		name: string;
-		label?: string;
-		error?: string;
-		value?: string;
-		prefixIcon?: Snippet<[number]>;
-	} = $props();
+	}: HTMLInputAttributes &
+		HTMLTextareaAttributes & {
+			name: string;
+			label?: string;
+			error?: string;
+			value?: string;
+			multiline?: boolean;
+			prefixIcon?: Snippet<[number]>;
+		} = $props();
 </script>
 
 <label class="text-input" for={name}>
@@ -33,7 +36,11 @@
 				{@render prefixIcon(24)}
 			</div>
 		{/if}
-		<input {type} id={name} {name} {...restProps} bind:value />
+		{#if !multiline}
+			<input {type} id={name} {name} {...restProps} bind:value />
+		{:else}
+			<textarea id={name} {name} {...restProps} bind:value></textarea>
+		{/if}
 	</div>
 
 	{#if error || restProps.maxlength}
@@ -89,7 +96,8 @@
 				height: 3rem;
 			}
 
-			input {
+			input,
+			textarea {
 				padding: calc(var(--base-padding) * 0.75) var(--base-padding);
 				border-radius: var(--inputs-border-base-radius);
 				width: 100%;
